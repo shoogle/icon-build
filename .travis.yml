@@ -1,0 +1,20 @@
+lang: bash
+
+before_install:
+  - sudo add-apt-repository -y ppa:inkscape.dev/stable
+  - sudo apt-get update
+  - sudo apt-get install -y inkscape pngcrush icnsutils python3-pip
+  - sudo pip3 install scour
+
+install:
+  # install fonts available from Ubuntu repositories
+  - sudo apt-get install -y fonts-roboto
+  # manually install fonts not available in Ubuntu repositories
+  - mkdir -p ~/.local/share/fonts
+  - cp resources/Cedarville-Cursive.ttf ~/.local/share/fonts
+
+script:
+  - bash ./icon-build.sh document-icon-template-master.svg
+
+after_success:
+  - curl --upload-file icons.zip https://transfer.sh/icons.zip
